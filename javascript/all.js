@@ -93,7 +93,7 @@ $(document).ready(function()
           'redirect': false,
           'type': 'large'
         }, function(response) {
-          loadImage(response.url);
+          loadImage(response.data.url);
         });
       } else {
         FB.login(function(response) {
