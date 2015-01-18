@@ -123,6 +123,8 @@ $(document).ready(function()
     y = position[1]/scale;
     createImage(template,source,x,y,w,h);
   });
+
+  loadImage('images/sample.jpg');
 });
 $(window).konami({
   code : [55,55,55],
@@ -208,7 +210,7 @@ function handleDragOver(evt) {
 
 // function
 function loadImage(files) {
-  var file, fr, img;
+  var file, fr, img, vintagedImg;
   if (!files) {
     alert('悲劇！您的瀏覽器不支援檔案上傳！')
   } else if (files instanceof FileList) {
@@ -221,20 +223,33 @@ function loadImage(files) {
   } else if (typeof(files) === 'string') {
     img = new Image();
     img.crossOrigin = 'anonymous';
-    img.onload = imageLoaded;
+    img.onload = vintage;
     img.src = files;
   }
   function createImage() {
     img = new Image();
-    img.onload = imageLoaded;
+    img.onload = vintage;
     img.src = fr.result;
+  }
+  function vintage() {
+    vintagedImg = new Image();
+    vintagedImg.src = img.src;
+    var options = {
+      onStop: imageLoaded
+    };
+    var effect = {
+        vignette: 0.6,
+        sepia: true,
+        contrast: -64
+    };
+    new VintageJS(vintagedImg, options, vintagePresets.vintage);
   }
   function imageLoaded() {
     var canvas = document.getElementById("canvas")
-    canvas.width = img.width;
-    canvas.height = img.height;
+    canvas.width = vintagedImg.width;
+    canvas.height = vintagedImg.height;
     var ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0);
+    ctx.drawImage(vintagedImg, 0, 0);
     var base64 = canvas.toDataURL("image/png");
 
     $('#source').attr('value',base64);
@@ -253,7 +268,7 @@ function loadImage(files) {
     thumb.width = thumb_w;
     thumb.height = thumb_h;
     var ctx = thumb.getContext("2d");
-    ctx.drawImage(img,0,0,thumb_w,thumb_h);
+    ctx.drawImage(vintagedImg,0,0,thumb_w,thumb_h);
     var thumbbase64 = thumb.toDataURL("image/png");
     $('#templates label').css('background-image','url('+thumbbase64+')');
 
