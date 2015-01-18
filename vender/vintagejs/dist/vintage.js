@@ -55,6 +55,8 @@ var VintageJS = function(originalImage, opts, effect) {
         contrast:   false
       };
 
+  image.crossOrigin = 'anonymous';
+
   image.onerror = options.onError;
 
   image.onload = function() {
