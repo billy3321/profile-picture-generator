@@ -233,6 +233,7 @@ function loadImage(files) {
   }
   function vintage() {
     vintagedImg = new Image();
+    vintagedImg.crossOrigin = 'anonymous';
     vintagedImg.src = img.src;
     var options = {
       onStop: imageLoaded
