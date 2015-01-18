@@ -87,23 +87,21 @@ $(document).ready(function()
 
   // connect to facebook
   function getPicture() {
-    FB.getLoginStatus(function(response) {
-      if (response.status === 'connected') {
-        FB.api('/me/picture', {
-          'redirect': false,
-          'width': 500,
-          'height': 500,
-        }, function(response) {
-          loadImage(response.data.url);
-        });
-      } else {
-        FB.login(function(response) {
-          if (response.authResponse) {
-            getPicture();
-          } else {
-            console.log('User cancelled login or did not fully authorize.');
+    FB.login(function(response) {
+      if (response.authResponse) {
+        FB.getLoginStatus(function(response) {
+          if (response.status === 'connected') {
+            FB.api('/me/picture', {
+              'redirect': false,
+              'width': 500,
+              'height': 500,
+            }, function(response) {
+              loadImage(response.data.url);
+            });
           }
         });
+      } else {
+        console.log('User cancelled login or did not fully authorize.');
       }
     });
   }
