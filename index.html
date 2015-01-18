@@ -28,14 +28,24 @@
 </script>
 </head>
 <body id="drop">
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '536980866405066',
+      xfbml      : true,
+      version    : 'v2.2'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&appId=792777814096777&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
 
 <div id="content" class="container">
   <div class="row">
@@ -44,6 +54,7 @@
         <div class="col-sm-12 control-box">
           <h1 class="logo">2/14 罷免頭像產生器</h1>
           <a class="uploadBtn">請按此上傳圖片</a><span class="mobile-hide">，或直接將圖片拖曳到頁面中</span><br>我們提供了數種樣板，讓您自由選擇<br>您可自由移動、縮放圖片到合適位置和大小<br>完成後，請點擊「下載圖片」按鈕
+          <p><a id="connect-fb">Connect to Facebook</a></p>
         </div>
         <div class="col-sm-12 control-box">
           <div id="templates" class="text-center" data-toggle="buttons">

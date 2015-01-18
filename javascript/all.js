@@ -5,6 +5,7 @@ $dragger = $('#dragger'),
 $sizer = $('#size-slider'),
 $loading = $('#loading');
 $uploading = $('#uploading');
+$connectFb = $('#connect-fb');
 
 $(window).load(function()
 {
@@ -83,6 +84,29 @@ $(document).ready(function()
       resizeDragger(size,container_size,value);
     });
   });
+
+  // connect to facebook
+  function getPicture() {
+    FB.getLoginStatus(function(response) {
+      if (response.status === 'connected') {
+        FB.api('/me/picture', {
+          'redirect': false,
+          'type': 'large'
+        }, function(response) {
+          loadImage(response.url);
+        });
+      } else {
+        FB.login(function(response) {
+          if (response.authResponse) {
+            getPicture();
+          } else {
+            console.log('User cancelled login or did not fully authorize.');
+          }
+        });
+      }
+    });
+  }
+  $connectFb.click(getPicture);
 
   $("#normalSubmit").click(function() {
     var
@@ -188,13 +212,17 @@ function loadImage(files) {
   var file, fr, img;
   if (!files) {
     alert('悲劇！您的瀏覽器不支援檔案上傳！')
-  } else {
+  } else if (files instanceof FileList) {
     $uploading.fadeIn();
     $loading.show();
     file = files[0];
     fr = new FileReader();
     fr.onload = createImage;
     fr.readAsDataURL(file);
+  } else if (typeof(files) === 'string') {
+    img = new Image();
+    img.onload = imageLoaded;
+    img.src = files;
   }
   function createImage() {
     img = new Image();
