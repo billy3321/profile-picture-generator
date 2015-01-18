@@ -91,7 +91,8 @@ $(document).ready(function()
       if (response.status === 'connected') {
         FB.api('/me/picture', {
           'redirect': false,
-          'type': 'large'
+          'width': 500,
+          'height': 500,
         }, function(response) {
           loadImage(response.data.url);
         });
