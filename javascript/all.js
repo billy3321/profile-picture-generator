@@ -221,6 +221,7 @@ function loadImage(files) {
     fr.readAsDataURL(file);
   } else if (typeof(files) === 'string') {
     img = new Image();
+    img.crossorigin = 'anonymous';
     img.onload = imageLoaded;
     img.src = files;
   }
